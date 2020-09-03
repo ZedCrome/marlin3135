@@ -1,0 +1,72 @@
+void setup()
+{
+  size(768, 432);
+
+  noFill();
+}
+  float xPos = 50.0f;
+  float yPos = 200.0f;
+  float xSpeed = 1.6f;
+  float ySpeed = 1.2f;
+  float textColor;
+
+void draw()
+{
+  background(0, 0, 0);
+  stroke(255,223,0);
+  strokeWeight(7);
+
+  moveName();
+  edgeDetection();
+  R();
+  O();
+  B();
+  I();
+  N();
+}
+
+void moveName() {
+	xPos = xPos + xSpeed + random(-1, 1);
+	yPos = yPos + ySpeed + random(-1, 1);;
+}
+
+void edgeDetection() {
+	if(xPos > width-475 || xPos < 0) {
+		xSpeed = xSpeed * -1;
+		/*
+		Max allowed x-value = 290
+		Min allowed x-value = 0
+		*/
+
+	}
+
+	if(yPos > height+1 || yPos < 200) {
+		ySpeed = ySpeed * -1;
+
+		/*Max allowed y-value = 430
+		Min Allwed y-value = 200
+		*/
+	}
+}
+
+void R() {
+	line(xPos, yPos-200, xPos ,yPos);
+  	line(xPos, yPos-100, xPos+75, yPos);
+ 	arc(xPos, yPos-150, 125, 100, radians(270),radians(450));
+}
+void O() {
+	ellipse(xPos+150, yPos-50, 100, 100);
+}
+void B() {
+	line(xPos+225, yPos-200, xPos+225, yPos);
+  	arc(xPos+225, yPos-50, 125, 100, radians(270), radians(450));
+}
+void I() {
+	line(xPos+325, yPos-100, xPos+325, yPos);
+  	ellipse(xPos+325, yPos-150, 5, 5);
+}
+void N() {
+  	line(xPos+375, yPos-100, xPos+375, yPos);
+  	arc(xPos+425, yPos-50, 100, 100, radians(180), radians(360));
+  	line(xPos+475, yPos-50, xPos+475, yPos);
+}
