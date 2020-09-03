@@ -8,7 +8,6 @@ void setup()
   float yPos = 200.0f;
   float xSpeed = 1.6f;
   float ySpeed = 1.2f;
-  float textColor;
 
 void draw()
 {
