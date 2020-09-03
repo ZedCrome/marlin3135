@@ -24,7 +24,7 @@ void draw()
   I();
   N();
 }
-
+//moveName() and edgeDetection() was made following a guide from The Coding train: "7.3: Modularity with functions - Processing Tutorial"
 void moveName() {
 	xPos = xPos + xSpeed + random(-1, 1);
 	yPos = yPos + ySpeed + random(-1, 1);;
