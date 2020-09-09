@@ -1,0 +1,46 @@
+PVector circlePosition;
+PVector mousePosition;
+PVector circleTravel;
+PVector circleSpeed;
+double distance = 0.0f;
+boolean travel = false;
+int circleRadius = 20;
+
+void setup() {
+	size(512, 512);
+	circlePosition = new PVector(40, 40);
+	circleSpeed = new PVector(0, 0);
+}
+
+void draw() {
+	Borders();
+	background(135,206,250);
+	line(circlePosition.x,circlePosition.y, mouseX, mouseY);
+	ellipse(circlePosition.x,circlePosition.y, circleRadius, circleRadius);
+	mousePosition = new PVector(mouseX, mouseY);
+
+	if (travel) {
+		circlePosition.add(circleSpeed);
+	}
+	distance = Math.sqrt((circlePosition.x - mousePosition.x) * (circlePosition.x - mousePosition.x) + (circlePosition.y - mousePosition.y) * (circlePosition.y - mousePosition.y));
+}
+
+void mousePressed() {
+	println(distance);
+
+	float clickDistance = PVector.dist(circlePosition, mousePosition);
+	clickDistance /= 100;
+
+	circleTravel = new PVector(mousePosition.x - circlePosition.x, mousePosition.y - circlePosition.y).normalize();
+	circleSpeed.add(circleTravel.mult(clickDistance));
+		
+	travel = true;
+}
+
+void Borders() {
+	if(circlePosition.x > (height - circleRadius/2) || circlePosition.x < (0 + circleRadius/2)) {
+		circleSpeed.x = circleSpeed.x * -1;
+	} else if(circlePosition.y > (height - circleRadius/2) || circlePosition.y < (0 + circleRadius/2)) {
+		circleSpeed.y = circleSpeed.y * -1;
+	}
+}
