@@ -1,48 +1,50 @@
 int spaceBetweenLines = width / 10;
-int xAxisOffset = 0;
-int yAxisOffset1 = 0;
 int yAxisOffset = 640;
-int numberOfLines = 64;
 int moduloCounter = 0;
 
 void setup()
 {
   size(640, 640);
-  background(50, 166, 240);
-  frameRate(15);
-  parabolicCurve();
+  background(240);
+  frameRate(5);
+  ParabolicCurve ParabolicCurve1 = new ParabolicCurve(0, 0, 128);
+  ParabolicCurve1.Print();
 }
+void draw() {
 
-void draw()
-{
-		
 }
+public class ParabolicCurve {
 
-void test() {
-	int axis1 = 0;
-	int axis2 = 0;
+	int axis1;
+	int axis2;
+	int numberOfLines;
 
-	parabolicCurve();
-}
+	public ParabolicCurve(int axis1, int axis2, int numberOfLines) {
 
-void parabolicCurve() {
+		axis1 = axis1;
+		axis2 = axis2;
+		numberOfLines = numberOfLines;
 
-	for (int drawnLines = 0; drawnLines < numberOfLines; drawnLines++) {
-		strokeWeight(2);
-		println(drawnLines);
+		boolean curveRotation = false;
+		for ( int i = 0; i < numberOfLines; i++) {
+			strokeWeight(2);
 
-		if (moduloCounter % 3 == 0) {
-			stroke(0, 100);
-			moduloCounter++;
+			if (moduloCounter % 3 == 0) {
+				stroke(0, 100);
+				moduloCounter++;
 
-		}else {
-			stroke(170, 100);
-			moduloCounter++;
+			} else {
+				stroke(170, 100);
+				moduloCounter++;
+			}
+				axis1+= spaceBetweenLines;
+				axis2 += spaceBetweenLines;
+
+			line(0, axis1, axis2, 640);
+			//println(axis1, axis2);
 		}
-
-
-		line(0, yAxisOffset1, xAxisOffset, yAxisOffset);
-		xAxisOffset+= spaceBetweenLines;
-		yAxisOffset1 += spaceBetweenLines;
+	}
+	public void Print() {
+		println(axis1, axis2);
 	}
 }

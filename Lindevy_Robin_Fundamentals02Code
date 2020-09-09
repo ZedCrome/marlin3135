@@ -1,0 +1,48 @@
+int spaceBetweenLines = width / 10;
+int xAxisOffset = 0;
+int yAxisOffset1 = 0;
+int yAxisOffset = 640;
+int numberOfLines = 64;
+int moduloCounter = 0;
+
+void setup()
+{
+  size(640, 640);
+  background(50, 166, 240);
+  frameRate(15);
+  parabolicCurve();
+}
+
+void draw()
+{
+		
+}
+
+void test() {
+	int axis1 = 0;
+	int axis2 = 0;
+
+	parabolicCurve();
+}
+
+void parabolicCurve() {
+
+	for (int drawnLines = 0; drawnLines < numberOfLines; drawnLines++) {
+		strokeWeight(2);
+		println(drawnLines);
+
+		if (moduloCounter % 3 == 0) {
+			stroke(0, 100);
+			moduloCounter++;
+
+		}else {
+			stroke(170, 100);
+			moduloCounter++;
+		}
+
+
+		line(0, yAxisOffset1, xAxisOffset, yAxisOffset);
+		xAxisOffset+= spaceBetweenLines;
+		yAxisOffset1 += spaceBetweenLines;
+	}
+}
