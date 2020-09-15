@@ -1,0 +1,57 @@
+PVector vectorPoint1;
+PVector vectorPoint2;
+PVector clickPoint1;
+PVector clickPoint2;
+PVector point1Offset;
+PVector point2Offset;
+boolean mouseIsPressed = false;
+int score = 0;
+int maxScore = 2500;
+int displayScore = 2500;
+
+void setup() {
+	size(512, 512);
+	strokeWeight(3);
+	stroke(200);
+	background(50);
+	vectorPoint1 = new PVector(random(50, 450), random(50, 230));
+	vectorPoint2 = new PVector(random(50, 450), random(230, 480));
+	text("Target Vector: " + vectorPoint1 + "  " + vectorPoint2 + ".", 10, 10, 0);
+}
+
+void draw() {
+	text("Max Score: " + displayScore + ".", 10, 40);
+	if(mouseIsPressed) {
+		background(50);
+		stroke(200);
+		line(clickPoint1.x, clickPoint1.y, mouseX, mouseY);
+	}
+}
+
+void mousePressed() {
+	clickPoint1 = new PVector(mouseX, mouseY);
+	mouseIsPressed = true;
+}
+
+void mouseReleased() {
+	clickPoint2 = new PVector(mouseX, mouseY);
+	mouseIsPressed = false;
+	calculateOffset();
+	scoreCalculation();
+	text("Target Vector: " + vectorPoint1 + "  " + vectorPoint2 + ".", 10, 10);
+	text("Your Vector: " + point1Offset + " " + point2Offset + ".", 10, 25);
+	stroke(100, 150, 200 );
+	line(vectorPoint1.x, vectorPoint1.y, vectorPoint2.x, vectorPoint2.y);
+	text("Score: " + score + ".", 10, 55);
+}
+
+void calculateOffset() {
+	point1Offset = new PVector (Math.abs(vectorPoint1.x - clickPoint1.x), Math.abs(vectorPoint1.y - clickPoint1.y));
+	point2Offset = new PVector (Math.abs(vectorPoint2.x - clickPoint2.x), Math.abs(vectorPoint2.y - clickPoint2.y));
+}
+
+void scoreCalculation() {
+	maxScore = 2500;
+	score = maxScore -= Math.pow((point1Offset.x + point1Offset.y) + (point2Offset.x + point2Offset.y), 1);
+	println("Score: " + score);
+}
