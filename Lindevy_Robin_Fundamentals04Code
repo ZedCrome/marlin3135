@@ -1,0 +1,106 @@
+boolean up, down,left, right = false;
+float acceleration = 0f;
+float speed = 150f;
+float deltaTime;
+float time;
+PVector position;
+PVector direction; 
+PVector velocity;
+
+void setup() {
+	size(512, 512);
+	velocity = new PVector(0, 0);
+	position = new PVector(250, 250);
+	direction = new PVector(0, 0);
+}
+void draw() {
+	long currentTime = millis();
+	deltaTime = (currentTime - time) * 0.001f;
+	background(0);
+	ellipse(position.x, position.y, 30, 30);
+	direction();
+	move();
+	deaccelerate();
+	wrap();
+	position.add(velocity);
+	time = currentTime;
+}
+//Check key inputs.
+void keyPressed() {
+	if (key == 'w') {
+		up = true;
+		
+	} if (key == 's') {
+		down = true;
+
+	} if (key == 'a') {
+		left = true;
+
+	} if (key == 'd') {
+		right = true;
+	}
+}
+void direction() {
+	if (up) {
+		direction.y = -speed;
+	}
+	if (down) {
+		direction.y = speed;
+	}
+	if (left) {
+		direction.x = -speed;
+	}
+	if (right) {
+		direction.x = speed;
+	}
+}
+/*
+Check if key is released, and which one.
+Reset direction value.
+*/ 
+void keyReleased() {
+	if(key == 'w') {
+		up = false;
+		direction.y = 0;
+	}
+	if (key == 's') {
+		down = false;
+		direction.y = 0;
+	}
+	if (key == 'a')  {
+		left = false;
+		direction.x = 0;
+	}
+	if (key == 'd')  {
+		right = false;
+		direction.x = 0;
+	}
+}
+void move() {
+	if (up || down || left || right) {
+		velocity.add(direction.normalize().mult(acceleration)).mult(deltaTime);
+		if(acceleration < 150) {
+			acceleration += 3;
+		}
+	}
+}
+void deaccelerate() {
+	if(acceleration > 0) {
+		if(!up && !down && !left && !right) {
+			velocity.x *= 0.90;
+			velocity.y *= 0.90;
+			acceleration -= 3;
+		}
+	}
+}
+void wrap() {
+	if (position.x < 0) {
+		position.x = width;
+	} else if (position.x > width) {
+		position.x = 0;
+	} else if (position.y < 0) {
+		position.y = 0;
+	} else if (position.y > height) {
+		position.y = height;
+	}
+}
