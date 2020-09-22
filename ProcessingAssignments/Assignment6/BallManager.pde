@@ -3,8 +3,10 @@ Ball[] balls;
 Collision collision;
 int numberOfBalls = 10;
 
+
 class BallManager {
 	float spawnTimer;
+
 
 	void setup() {
 		balls = new Ball[numberOfBalls];
@@ -16,6 +18,7 @@ class BallManager {
 		}
 
 	}
+
 
 	void draw() {
 		//check if balls collide with player. 

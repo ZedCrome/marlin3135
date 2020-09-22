@@ -2,6 +2,8 @@ class Ball {
   PVector position;
   PVector velocity;
   int ballSize = 30;
+
+
   public Ball (float x, float y) {
     position = new PVector(x, y);
     velocity = new PVector();
@@ -15,6 +17,7 @@ class Ball {
     velocity.y = random(10) - 5;
   }
 
+
   void update() {
     //updates ball positions.
     position.x += velocity.x;
@@ -22,12 +25,15 @@ class Ball {
 
     edgeDetection();
   }
+  
+
 	//draws the ball.
   void draw() {
     fill(125, 200, 255);
     ellipse(position.x, position.y, ballSize, ballSize);
 
   }
+
 
   //Keeps the ball inside of the viewing window
   void edgeDetection() {

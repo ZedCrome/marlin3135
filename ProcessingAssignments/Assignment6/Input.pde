@@ -1,5 +1,6 @@
 boolean up, down,left, right = false;
 
+
   void keyPressed() {
     if (key == 'w') {
       up = true;
@@ -14,6 +15,7 @@ boolean up, down,left, right = false;
       right = true;
     }
   }
+
 
   void keyReleased() {
     if(key == 'w') {

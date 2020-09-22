@@ -5,11 +5,13 @@ class Player {
   PVector position;
   PVector velocity;
 
+
   Player(float x, float y) {
     velocity = new PVector(0, 0);
     position = new PVector(x, y);
     direction = new PVector(0, 0);
   }
+
 
   void draw() {
     fill(255, 89, 120);
@@ -20,6 +22,7 @@ class Player {
     edgeDetection();
     position.add(velocity.limit(10));
   }
+
 
   //Checks what direction the player should be voving in, based on what buttons are pressed.
   void direction() {
@@ -37,6 +40,7 @@ class Player {
     }
   } 
 
+
 //calculates velocity, direction, acceleration and combines it into the velocity vector.
   void move() {
     if (up || down || left || right) {
@@ -50,6 +54,7 @@ class Player {
     }
   }
 
+
   //deaccelerates player while no input key is pressed.
   void deaccelerate() {
     if(!up && !down && !left && !right) {
@@ -58,6 +63,7 @@ class Player {
       acceleration = 0;
     }
   }
+
 
   //Keeps the player inside of the viewing window
   void edgeDetection() {

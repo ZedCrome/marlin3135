@@ -12,6 +12,7 @@ void setup() {
   ballManager.setup();
 
 }
+
 void draw() {
   //provides a Game Over screen when the player collides with a ball.
   if(!gameRunning) {
