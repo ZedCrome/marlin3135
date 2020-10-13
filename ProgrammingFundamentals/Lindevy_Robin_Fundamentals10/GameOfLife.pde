@@ -50,7 +50,7 @@ class GameOfLife {
 			for (int x = 0; x < width / cellSize; x++) {
 				for (int y = 0; y < height / cellSize; y++) {
 
-					color alive = color(random(155, 220), random(155, 220), 0);
+					color alive = color(random(0, 220), random(0, 220), random(0, 220));
 					if(cells[x][y] == 1) {
 						fill(alive);
 						rect(cellSize * x, cellSize * y, cellSize, cellSize);
