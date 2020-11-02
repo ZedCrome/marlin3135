@@ -16,8 +16,8 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        audio.clip = secondAudioSource;
-        GetComponent<AudioSource>().Play();
+        //audio.clip = secondAudioSource;
+        //GetComponent<AudioSource>().Play();
         Destroy(gameObject, 0.5f);
         
 

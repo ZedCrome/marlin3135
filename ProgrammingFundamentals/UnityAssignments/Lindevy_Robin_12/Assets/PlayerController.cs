@@ -28,13 +28,5 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         rb2d.velocity = move * speed;
-
-
-
-       /* //om move Vectorn är längre än 1 (om både Horizontal och Vertical är aktiverade samtidigt)
-        //så normaliseras den.
-        
-
-        ;*/
     }
 }
