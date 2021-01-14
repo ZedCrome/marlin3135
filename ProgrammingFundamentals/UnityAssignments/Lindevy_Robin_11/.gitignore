@@ -52,6 +52,12 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 
+#Plugins
+/[Aa]ssets/Plugins/RainbowAssets
+*RainbowAssets.meta
+/[Aa]ssets/Heureka
+*Heureka.meta
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
