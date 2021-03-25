@@ -1,0 +1,101 @@
+﻿using Firebase.Database;
+using System.Collections;
+using UnityEngine;
+
+public class FireBaseManager : MonoBehaviour
+{
+    //Singleton
+	public static FireBaseManager Instance { get; private set; }
+
+	//Delegates
+	public delegate void OnLoadedDelegate(string jsonData);
+    public delegate void OnSaveDelegate();
+
+    FirebaseDatabase db;
+
+    private void Awake()
+    {
+        //Singleton setup
+        if (Instance != null && Instance != this)
+            Destroy(this.gameObject);
+        else
+            Instance = this;
+
+        db = FirebaseDatabase.DefaultInstance;
+    }
+
+    //loads the data at "path" then returns json result to the delegate/callback function
+    public IEnumerator LoadData(string path, OnLoadedDelegate onLoadedDelegate)
+    {
+        var dataTask = db.RootReference.Child(path).GetValueAsync();
+        yield return new WaitUntil(() => dataTask.IsCompleted);
+
+        if (dataTask.Exception != null)
+            Debug.LogWarning(dataTask.Exception);
+
+        string jsonData = dataTask.Result.GetRawJsonValue();
+
+        onLoadedDelegate(jsonData);
+    }
+
+    //This load gives one callback for each result in the database.
+    public IEnumerator LoadDataMultiple(string path, OnLoadedDelegate onLoadedDelegate)
+    {
+        var dataTask = db.RootReference.Child(path).GetValueAsync();
+        yield return new WaitUntil(() => dataTask.IsCompleted);
+        string jsonData = dataTask.Result.GetRawJsonValue();
+
+        if (dataTask.Exception != null)
+            Debug.LogWarning(dataTask.Exception);
+
+		foreach (var item in dataTask.Result.Children)
+		{
+            onLoadedDelegate(item.GetRawJsonValue());
+		}
+    }
+
+    //Save data to our database.
+    public IEnumerator SaveData(string path, string data, OnSaveDelegate onSaveDelegate = null)
+    {
+        var dataTask = db.RootReference.Child(path).SetRawJsonValueAsync(data);
+        yield return new WaitUntil(() => dataTask.IsCompleted);
+
+        if (dataTask.Exception != null)
+            Debug.LogWarning(dataTask.Exception);
+
+        if (onSaveDelegate != null)
+        {
+            onSaveDelegate();
+        }
+    }
+
+    public IEnumerator CheckForGame(string path, OnLoadedDelegate onLoadedDelegate = null)
+	{
+        Debug.Log("checking for game");
+        var dataTask = db.GetReference("games").OrderByChild("status").EqualTo("new").GetValueAsync();
+
+        yield return new WaitUntil(() => dataTask.IsCompleted);
+
+        string jsonData = dataTask.Result.GetRawJsonValue();
+
+        Debug.Log("game data: " + jsonData);
+
+        if (dataTask.Exception != null)
+            Debug.LogWarning(dataTask.Exception);
+
+		if (dataTask.Result.ChildrenCount > 0)
+		{
+		    foreach (var item in dataTask.Result.Children)
+		    {
+                Debug.Log("multiple data found: "+ item.GetRawJsonValue());
+
+                onLoadedDelegate(item.GetRawJsonValue());
+                break;
+		    }
+		}
+        else
+		{
+            onLoadedDelegate(jsonData);
+		}
+    }
+}

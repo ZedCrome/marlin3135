@@ -117,23 +117,20 @@
               </e>
             </e>
           </e>
-          <e p="Firebase" t="Include">
-            <e p="m2repository" t="Include">
-              <e p="com" t="Include">
-                <e p="google" t="Include">
-                  <e p="Firebase" t="Include">
-                    <e p="firebase-app-unity" t="Include">
-                      <e p="maven-metadata.xml" t="Include" />
-                    </e>
-                    <e p="firebase-auth-unity" t="Include">
-                      <e p="maven-metadata.xml" t="Include" />
-                    </e>
-                    <e p="firebase-database-unity" t="Include">
-                      <e p="maven-metadata.xml" t="Include" />
-                    </e>
-                    <e p="firebase-functions-unity" t="Include">
-                      <e p="maven-metadata.xml" t="Include" />
-                    </e>
+        </e>
+        <e p="Firebase" t="Include">
+          <e p="m2repository" t="Include">
+            <e p="com" t="Include">
+              <e p="google" t="Include">
+                <e p="Firebase" t="Include">
+                  <e p="firebase-app-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                  <e p="firebase-auth-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                  <e p="firebase-database-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
                   </e>
                 </e>
               </e>
@@ -141,14 +138,21 @@
           </e>
         </e>
         <e p="loadPlayers.cs" t="Include" />
+        <e p="RandomTextSelector.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Camera" t="Include">
             <e p="FollowTarget.cs" t="Include" />
           </e>
           <e p="Firebase" t="Include">
+            <e p="FireBaseLogin.cs" t="Include" />
+            <e p="FireBaseManager.cs" t="Include" />
             <e p="FirebaseTest.cs" t="Include" />
+            <e p="Game.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="Login.cs" t="Include" />
+            <e p="Register.cs" t="Include" />
+            <e p="StartGame.cs" t="Include" />
           </e>
-          <e p="Login.cs" t="Include" />
           <e p="Managers" t="Include">
             <e p="LevelManager.cs" t="Include" />
             <e p="NameTagManager.cs" t="Include" />
@@ -166,14 +170,12 @@
             <e p="TileMapGeneratorTemplate.cs" t="Include" />
             <e p="WalkerGenerator.cs" t="Include" />
           </e>
-          <e p="Register.cs" t="Include" />
           <e p="Save" t="Include">
             <e p="PlayerInfo.cs" t="Include" />
             <e p="SaveManager.cs" t="Include" />
             <e p="Savenames.cs" t="Include" />
             <e p="test.cs" t="Include" />
           </e>
-          <e p="StartGame.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />

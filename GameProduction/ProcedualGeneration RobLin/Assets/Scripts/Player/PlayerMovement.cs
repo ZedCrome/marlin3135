@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
 		if (movement.sqrMagnitude > 0.05f)
 		{
-            transform.up = movement;
+			transform.up = movement;
             transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
 			rb.velocity = transform.up * speed;

@@ -1,16 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class MultiplePlayers
+public class UserInfo
 {
-	public PlayerInfo[] players;
+    public string name;
+    public string activeGame;
 }
 
 [Serializable]
-public class PlayerInfo
+public class GameInfo
 {
-	public string Name;
-	public Vector3 Position;
-	public Quaternion rotation;
+    public string status;
+    public string player1;
+    public string player2;
+    public string gameID;
+    public float player1Time;
+    public float player2Time;
+}
+
+public enum Move
+{
+    Rock,
+    Paper,
+    Scissor,
 }

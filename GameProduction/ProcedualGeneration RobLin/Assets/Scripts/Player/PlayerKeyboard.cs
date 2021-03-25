@@ -16,7 +16,11 @@ public class PlayerKeyboard : MonoBehaviour
     void Update()
     {
         float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
+        float y;
+        if (Input.GetKeyDown(KeyCode.Space))
+            y = 1;
+        else
+            y = 0;
 
         var move = new Vector3(x, y, 0);
 

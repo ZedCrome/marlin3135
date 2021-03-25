@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "922652826049",
+    "firebase_url": "https://schoolprojectcar-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "schoolprojectcar",
+    "storage_bucket": "schoolprojectcar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922652826049:android:a6ba9b48b3358522af3740",
+        "android_client_info": {
+          "package_name": "com.Robin.SaveData"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922652826049-k4h2u2l9e8mqpgj9k4tfe38k19b93uf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB95GIl8gC_TTZdVfR2w5yl6dfkgRJX7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922652826049-k4h2u2l9e8mqpgj9k4tfe38k19b93uf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
