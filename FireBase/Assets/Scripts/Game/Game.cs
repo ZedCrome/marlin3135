@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.Net.NetworkInformation;
+using Firebase.Database;
 using UnityEngine;
 using TMPro;
 
@@ -15,6 +17,7 @@ public class Game : MonoBehaviour
 
 	public bool player2 = false;				//if we are player 1 or 2
 	public bool gameIsFull = false;
+	public bool gameIsOver;
 	GameInfo game;								//Holder for our game info
 
 	UserInfo user;
@@ -32,14 +35,14 @@ public class Game : MonoBehaviour
 		}
 
 		//Setup for our game
-		internal void StartGame(GameInfo newGame, string userID)
+		internal void StartGame(GameInfo newGame, UserInfo user)
 		{
 			//Stor our game in the class
 			game = newGame;
-			
+			this.user = user;
 
 			//check if we are player one or two
-			if (game.player1 != userID)
+			if (user.UserID != game.player1.UserID)
 				player2 = true;
 			
 			//Set player names
@@ -64,13 +67,55 @@ public class Game : MonoBehaviour
 			
 
 			//If we don't have a player 2.
-			if (game.player2 == "" || game.player2 == null)
+			if (game.player2 == null)
 				status.text = "Waiting for opponent to join";
 			else
 			{
 				gameIsFull = true;
 			}
+
+			FirebaseDatabase.DefaultInstance.GetReference("games/" + game.gameID).ValueChanged += UpdateGame;
+			SaveGame();
 		}
+
+		private void UpdateGame(object sender, ValueChangedEventArgs e)
+		{
+			if (e.DatabaseError != null)
+			{
+				Debug.LogError(e.DatabaseError.Message);
+				return;
+			}
+
+			string jsonData = e.Snapshot.GetRawJsonValue();
+			game = JsonUtility.FromJson<GameInfo>(jsonData);
+
+			if (player2)
+			{
+				user.wins = game.player2.wins;
+				user.losses = game.player2.losses;
+			}
+			else
+			{
+				user.wins = game.player1.wins;
+				user.losses = game.player1.losses;
+			}
+
+			if (game.status == "completed")
+			{
+				if (game.winner == "" || game.winner == null)
+				{
+					status.text = "It's a draw! well done.";
+				}
+				else
+				{
+					status.text = game.winner + " wins the game!";
+				}
+			}
+			
+			
+			StartCoroutine(FireBaseManager.Instance.SaveData("users/" + user.UserID, JsonUtility.ToJson(user)));
+		}
+
 
 		public void UpdateTime(float time)
 		{
@@ -78,7 +123,8 @@ public class Game : MonoBehaviour
 
 			int minutes = Mathf.FloorToInt(newTime / 60.0f);
 			int seconds = Mathf.FloorToInt(newTime - minutes * 60);
-			
+		
+		
 			if (player2)
 			{
 				game.player2Time = newTime;
@@ -89,41 +135,45 @@ public class Game : MonoBehaviour
 				game.player1Time = newTime;
 				player1scoreUI.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 			}
-			SaveGame();
 			ShowWinner();
+			SaveGame();
 		}
 
 		public void ShowWinner()
 		{
-			if (game.player1Time == 0 || game.player1Time == null)
+			if (game.player1Time == 0)
 				return;
 
-			if (game.player2Time == 0 || game.player2Time == null)
+			if (game.player2Time == 0)
 				return;
+
+			game.status = "completed";
 
 			if (game.player1Time > game.player2Time)
-				status.text = game.player2DisplayName + "wins the game!";
-
-			if (game.player2Time > game.player1Time)
-				status.text = game.player1DisplayName + "wins the game!";
-
-			if (game.player1Time == game.player2Time)
 			{
-				status.text = "It's a draw! well done.";
+				game.player2.wins += 1;
+				game.player1.losses += 1;
+				game.winner = game.player2.name;
+			}
+			
+			if (game.player2Time > game.player1Time)
+			{
+				game.player1.wins += 1;
+				game.player2.losses += 1;
+				game.winner = game.player1.name;
 			}
 		}
-		
-		public void ResetTime()
-		{
-			game.player1Time = 0;
-			game.player2Time = 0;
-			SaveGame();
-		}
 
-		void SaveGame()
+		
+		public void SaveGame()
 		{
 			//Save our game to the database (so our opponent gets new data)
 			StartCoroutine(FireBaseManager.Instance.SaveData("games/" + game.gameID, JsonUtility.ToJson(game)));
 		}
 
+
+		public void OnDestroy()
+		{
+			FirebaseDatabase.DefaultInstance.GetReference("games/" + game.gameID).ValueChanged -= UpdateGame;
+		}
 }

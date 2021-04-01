@@ -7,15 +7,19 @@ public class Timer : MonoBehaviour
     public GameManager gameManager;
     public WordBank wordBank;
     public Typer typer;
+
+    private bool isFinished = false;
     
     public float timePassed = 0.0f;
     public TMP_Text timer;
     public void Update()
     {
+        if (isFinished)
+            return;
+        
         if (gameManager.NameIsSet && game.gameIsFull)
-        {
             UpdateTimer(); 
-        }
+        
 
         int minutes = Mathf.FloorToInt(timePassed / 60.0f);
         int seconds = Mathf.FloorToInt(timePassed - minutes * 60);
@@ -30,6 +34,7 @@ public class Timer : MonoBehaviour
         if (wordBank.words.Count == 0)
             if (typer.IsWordComplete())
             {
+                isFinished = true;
                 game.UpdateTime(timePassed);
                 return;
             }

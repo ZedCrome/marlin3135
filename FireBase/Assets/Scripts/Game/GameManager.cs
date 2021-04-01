@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Drawing;
+using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine;
@@ -23,6 +24,13 @@ public class GameManager : MonoBehaviour
     public GameObject nameCanvas;
 	public GameObject gameCanvas;
     public bool NameIsSet = false;
+
+    private bool p1Loaded = false;
+    private bool p1Updated = false;
+
+    private bool p2Loaded = false;
+    private bool p2Updated = false;
+    
 
     void Start()
     {
@@ -58,7 +66,10 @@ public class GameManager : MonoBehaviour
 
             user = new UserInfo();
             user.activeGame = "";
+            user.UserID = userID;
             user.name = "";
+            user.wins = 0;
+            user.losses = 0;
             StartCoroutine(fbManager.SaveData("users/" + userID, JsonUtility.ToJson(user)));
 		}
 		else
@@ -98,7 +109,9 @@ public class GameManager : MonoBehaviour
 
             //Create game structure
 			newGame = new GameInfo();
-            newGame.player1 = userID;
+            newGame.player1 = user;
+            newGame.player1.wins = user.wins;
+            newGame.player1.losses = user.losses;
             newGame.player1DisplayName = user.name;
             newGame.player2DisplayName = "";
             newGame.status = "new";
@@ -121,7 +134,9 @@ public class GameManager : MonoBehaviour
             var game = JsonUtility.FromJson<GameInfo>(jsonData);
             
             //Update the game
-            game.player2 = userID;
+            game.player2 = user;
+            game.player2.wins = user.wins;
+            game.player2.losses = user.losses;
             game.player2DisplayName = user.name;
             game.status = "full";
             StartCoroutine(fbManager.SaveData("games/" + game.gameID, JsonUtility.ToJson(game)));
@@ -154,13 +169,12 @@ public class GameManager : MonoBehaviour
     private void GameLoaded(GameInfo game)
     {
         Log("Game has been loaded");
-        GetComponent<Game>().StartGame(game, userID);
+        GetComponent<Game>().StartGame(game, user);
 
         if (newGame.status == "new")
         {
 	        Log("Waiting for an opponent.");
         }
-
     }
 
     public void SaveName()
@@ -170,22 +184,20 @@ public class GameManager : MonoBehaviour
 	    if (!game.player2)
 	    {
 		    newGame.player1DisplayName = name.text;
-		    Debug.Log("player1");
 	    }
 	    
 	    if (game.player2)
 	    {
 		    newGame.player2DisplayName = name.text;
-		    Debug.Log("Player2"); 
 	    }
     
 	    nameCanvas.SetActive(false);
 	    gameCanvas.SetActive(true);
 	    NameIsSet = true;
-    
 	    CheckedActiveGame();
     }
-
+    
+    
     public IEnumerator SaveData(string path, string data, FireBaseManager.OnSaveDelegate onSaveDelegate = null)
     {
         var dataTask = db.RootReference.Child(path).SetRawJsonValueAsync(data);

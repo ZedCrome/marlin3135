@@ -8,8 +8,8 @@ public class WordBank : MonoBehaviour
 
     private List<string> originalWords = new List<string>()
     {
-        "You", "sunflower", "though", "orange", "virtual-reality", "breakfast", "painting", "music",
-        "we're", "function", "unrealengine4", "pokemon", "quite", "don't", "blanket", "swimming", "zebra", "webcam", "doughnut", "parenthasis", "bush", "unity"
+       /* "You", "sunflower", "though", "orange", "virtual-reality", "breakfast", "painting", "music",
+        "we're", "function", "unrealengine4", "pokemon", "quite", "don't", "blanket", "swimming", "zebra", "webcam", "doughnut", */"parenthasis", "bush", "unity"
     };
     
     public List<string> words = new List<string>();
