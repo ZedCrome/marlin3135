@@ -23,7 +23,8 @@ public class Game : MonoBehaviour
 	UserInfo user;
 
 	private FireBaseManager fbManager;
-	public GameManager gameManager;
+	public GameObject keyBoard;
+	public GameObject exitButton;
 	string userID;
 
 
@@ -110,6 +111,8 @@ public class Game : MonoBehaviour
 				{
 					status.text = game.winner + " wins the game!";
 				}
+				keyBoard.SetActive(false);
+				exitButton.SetActive(true);
 			}
 			
 			
@@ -162,6 +165,15 @@ public class Game : MonoBehaviour
 				game.player2.losses += 1;
 				game.winner = game.player1.name;
 			}
+		}
+
+
+
+		public void ExitGame()
+		{
+			user.activeGame = "";
+			SaveGame();
+			Application.Quit();
 		}
 
 		
